@@ -2,7 +2,7 @@
 ![CSIRO](https://www.csiro.au/~/media/Web-team/Images/CSIRO_Logo/logo.png?mw=90&hash=E7225C4985C2701654821B94F7A06AF5C3D30F8E) |NCMI Hydrochemistry  |
 |--|--|
 
-# <center> <! Box Plots On Same Scale !> </center>
+# <center> Box Plots On Same Scale </center>
 ## <center>Centered on means with ± 2uM </center>
 <br>
 
