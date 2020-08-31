@@ -9,7 +9,9 @@ Plots shown below were produced from data collected in the commissioning process
 Please see the commissioning report for more information.
 <br/>
 
-# 1.1 Independent Iodate Standards
+# 3.1 Independent Iodate Standards
+
+## 3.1.1 Iodate Standards across Instruments Boxplot
 
 > Data produced by dispensing 10mL of Potassium Iodate standard from an additional Dosimat not used for calibration.
 
@@ -17,14 +19,15 @@ Please see the commissioning report for more information.
 
 <br/>
 
-# 1.2 Repeated Deep Sample Measurement: 1
-## 1.2.1 Samples from One Niskin per Instrument
+# 3.2 Repeated Deep Sample Measurement: 1
+
+## 3.2.1.1 Samples from One Niskin per Instrument Boxplot
 
 > Samples were collected from deep CTD deployment (1000db), in this section 6 samples were collected from each niskin and, samples from that 1 niskin were then analysed by 1 instrument. All samples were collected by Kendall.
 
 ![Replicate samples from 1 niskin per Instrument](https://raw.githubusercontent.com/kendall-s/do_commissioning/44687bddbdadd3cb3c0d7bb61dbe32e07639b406/plots/replicate_deep_samples_1_single.svg)
 
-## 1.2.2 Samples from Two Niskins for all Instruments
+## 3.2.2.1 Samples from Two Niskins for all Instruments Boxplot
 
 > Samples were collected from deep CTD deployment (1000db), in this section 6 samples were collected from two niskins, totalling 12 samples. 2 samples from each niskin were analysed on each instrument, meaning each instrument analysed 4 samples. 
 
@@ -32,7 +35,9 @@ Please see the commissioning report for more information.
 
 <br/>
 
-# 1.3 Atmospheric Sample: All Instruments
+# 3.3 Atmospheric Sample: All Instruments
+
+## 3.3.1 Atmospheric Saturated Sample Boxplot
 
 > Using the atmospheric sample setup, 12 samples were collected at 21.5°C with air pressure of 1011.1 atm. 4 samples at random were analysed by each instrument. All samples were collected by Alicia.
 
@@ -41,7 +46,9 @@ Please see the commissioning report for more information.
 <br/>
 
 
-# 1.4 Atmospheric Sample: One Instrument
+# 3.4 Atmospheric Saturated Sample: One Instrument
+
+## 3.4.1 Atmospheric Saturated Sample: Instrument New B
 
 > Using the atmospheric sample setup, 12 samples were collected. All of these samples were analysed on one of the new instruments. Instrument New B was used, this was the instrument which was installed into the Hydrochemistry lab to replace the old instrument. Samples were taken at 21.5°C with air pressure of 1010.7 atm.
 
@@ -53,7 +60,9 @@ Please see the commissioning report for more information.
 <br/>
 
 
-# 1.5 Water Profile Comparison
+# 3.5 Water Profile Comparison
+
+## 3.5.1 Water Profile Plot
 
 > Replicate water samples were taken at multiple depths for a basic water column profile. There were niskin fired replicates as well as sample duplicates taken for each niskin. The sample duplicates were split between the two instruments test, New A and Old. 
 
@@ -62,7 +71,9 @@ Please see the commissioning report for more information.
 <br/>
 
 
-# 1.6 Repeated Deep Sample Measurements: 2
+# 3.6 Repeated Deep Sample Measurements: 2
+
+## 3.6.1 Deployment 2 Replicates Boxplot
 
 > Replicate water samples were taken at multiple depths for a basic water column profile. There were niskin fired replicates as well as sample duplicates taken for each niskin. The sample duplicates were split between the two instruments test, New A and Old. 
 

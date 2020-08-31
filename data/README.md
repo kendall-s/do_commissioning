@@ -9,7 +9,7 @@ Data listed below was collected in the commissioning process of two newly procur
 
 Please see the commissioning report for more information.
 
-# 1.1 Independent Iodate Standards
+# 3.1 Independent Iodate Standards
 
 > Data produced by dispensing 10mL of Potassium Iodate standard from an additional Dosimat not used for calibration.
 
@@ -28,8 +28,8 @@ Please see the commissioning report for more information.
 | Old        | 200    | 142.19   | 0.56665  | 0.56668 | 4.958  | 19.73    | 20       | 2.411    | 60641     | 221.5186 |
 | Old        | 200    | 142.19   | 0.56722  | 0.56725 | 4.963  | 19.78    | 20       | 2.306    | 61307     | 221.7419 |
 
-# 1.2 Repeated Deep Sample Measurement: 1
-## 1.2.1 Samples from One Niskin per Instrument
+# 3.2 Repeated Deep Sample Measurement: 1
+## 3.2.1 Samples from One Niskin per Instrument
 
 > Samples were collected from deep CTD deployment (1000db), in this section 6 samples were collected from each niskin and, samples from that 1 niskin were then analysed by 1 instrument. All samples were collected by Kendall.
 
@@ -55,7 +55,7 @@ Please see the commissioning report for more information.
 | Old        | 141    | 146.14   | 0.49274  | 0.49277 | 4.191  | 19.64    | 7.4      | 2.334    | 63956     | 187.2636 | 3  |
 
 
-## 1.2.2 Samples from Two Niskins for all Instruments
+## 3.2.2 Samples from Two Niskins for all Instruments
 
 > Samples were collected from deep CTD deployment (1000db), in this section 6 samples were collected from two niskins, totalling 12 samples. 2 samples from each niskin were analysed on each instrument, meaning each instrument analysed 4 samples. 
 
@@ -75,7 +75,7 @@ Please see the commissioning report for more information.
 | Old        | 216    | 144.35   | 0.48701  | 0.48679 | 4.192  | 22.14    | 7.6      | 2.221    | 133301    | 187.3082 | 6  |
 
 
-# 1.3 Atmospheric Sample: All Instruments
+# 3.3 Atmospheric Saturated Sample: All Instruments
 
 > Using the atmospheric sample setup, 12 samples were collected at 21.5°C with air pressure of 1011.1 atm. 4 samples at random were analysed by each instrument. All samples were collected by Alicia.
 
@@ -95,7 +95,7 @@ Please see the commissioning report for more information.
 | Old        | 265    | 143.04   | 0.70677  | 0.70671 | 6.15   | 20.4     | 21.5     | 2.145    | 142704    | 274.7545 |
 
 
-# 1.4 Atmospheric Sample: One Instrument
+# 3.4 Atmospheric Saturated Sample: One Instrument
 
 > Using the atmospheric sample setup, 12 samples were collected. All of these samples were analysed on one of the new instruments. Instrument New B was used, this was the instrument which was installed into the Hydrochemistry lab to replace the old instrument. Samples were taken at 21.5°C with air pressure of 1010.7 atm.
 
@@ -116,7 +116,7 @@ Please see the commissioning report for more information.
 | New B      | 241    | 146.01   | 0.79452  | 0.7942  | 6.2    | 21.92    | 21.5     | 2.288    | 153225    | 277.0322 |
 
 
-# 1.5 Water Profile Comparison
+# 3.5 Water Profile Comparison
 
 > Replicate water samples were taken at multiple depths for a basic water column profile. There were niskin fired replicates as well as sample duplicates taken for each niskin. The sample duplicates were split between the two instruments test, New A and Old. 
 
@@ -172,7 +172,7 @@ Please see the commissioning report for more information.
 
 
 
-# 1.6 Repeated Deep Sample Measurements: 2
+# 3.6 Repeated Deep Sample Measurements: 2
 
 > Replicate water samples were taken at multiple depths for a basic water column profile. There were niskin fired replicates as well as sample duplicates taken for each niskin. The sample duplicates were split between the two instruments test, New A and Old. 
 
