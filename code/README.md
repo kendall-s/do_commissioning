@@ -1,4 +1,4 @@
-﻿
+
 # This notebook contains the code for plotting the Dissolved Oxygen Commissioning plots
 
 ### Two new dissolved oxygen instruments were purchased from Scripps - these new instruments were subsequently taken on in2020_e01 for commissioning. The data below was collected on the voyage where all 3 instruments (2 new, 1 old) were setup in the same laboratory space and operated in parallel.
@@ -12,19 +12,35 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 import seaborn as sns
 import seawater as sw
+import scipy.stats as sci_st
 
 sns.set(style="whitegrid") # I like this
 mpl.rc('font', family='serif') # Cast Segoe UI font onto all plot text
 mpl.rc('figure', figsize=[8, 5]) # Set fig size to something more fitting for A4 word doc
 ```
 
----
-
-## 1.1 Independent Iodate Standards
+### Variables for locations of datafiles (in same order as headings)
 
 
 ```python
-iodate_df = pd.read_csv(r"C:\Users\she384\Documents\DO Commissioning\repo\data\independent_iodate.csv")
+INDEPENDENT_IODATE_DATA = 'https://raw.githubusercontent.com/kendall-s/do_commissioning/master/data/independent_iodate.csv'
+DEP_1_DEEP_REPLICATES_SINGLE_NISKINS_DATA = 'https://raw.githubusercontent.com/kendall-s/do_commissioning/master/data/dep_1_deep_replicates_single_niskins.csv'
+DEP_1_DEEP_REPLICATES_SHARED_NISKINS_DATA = 'https://raw.githubusercontent.com/kendall-s/do_commissioning/master/data/dep_1_deep_replicates_shared_niskins.csv'
+ATMOSPHERIC_DIFF_INSTRUMENTS_DATA = 'https://raw.githubusercontent.com/kendall-s/do_commissioning/master/data/atmospheric_diff_instruments.csv'
+ATMOSPHERIC_ONE_INSTRUMENT_DATA = 'https://raw.githubusercontent.com/kendall-s/do_commissioning/master/data/atmospheric_one_instrument.csv'
+PROFILE_COMPARISON_DATA = 'https://raw.githubusercontent.com/kendall-s/do_commissioning/master/data/profile_comparison.csv'
+DEP_2_DEEP_REPLICATES_DATA = 'https://raw.githubusercontent.com/kendall-s/do_commissioning/master/data/dep_2_deep_replicates.csv'
+
+COMBINED_DATA = 'https://raw.githubusercontent.com/kendall-s/do_commissioning/master/data/combined.csv'
+```
+
+---
+
+## 3.1 Independent Iodate Standards 
+
+
+```python
+iodate_df = pd.read_csv(INDEPENDENT_IODATE_DATA)
 ```
 
 
@@ -36,7 +52,6 @@ iodate_df.head()
 
 
 <div>
-
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -131,6 +146,8 @@ iodate_df.head()
 
 
 
+### 3.1.1 Iodate Standards across Instruments Boxplot
+
 
 ```python
 sns.boxplot(iodate_df['Instrument'], iodate_df['O2µmol/L'])
@@ -151,18 +168,94 @@ plt.savefig('independent_iodate_standards.svg', format='svg')
 ```
 
 
-![png](https://raw.githubusercontent.com/kendall-s/do_commissioning/6de482a4f40a3fffaad9e3d86eb9547ffdda24c1/plots/independent_iodate_standards.svg)
+![png](https://raw.githubusercontent.com/kendall-s/do_commissioning/master/plots/independent_iodate_standards.svg)
+
+
+### 3.1.2 Iodate Standards Descriptive Statistics
+
+
+```python
+iodate_df.groupby(['Instrument'])['O2µmol/L'].describe()
+```
+
+
+
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+    </tr>
+    <tr>
+      <th>Instrument</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>New A</th>
+      <td>4.0</td>
+      <td>221.47390</td>
+      <td>0.081538</td>
+      <td>221.3846</td>
+      <td>221.418050</td>
+      <td>221.47390</td>
+      <td>221.529750</td>
+      <td>221.5632</td>
+    </tr>
+    <tr>
+      <th>New B</th>
+      <td>4.0</td>
+      <td>221.68605</td>
+      <td>0.336945</td>
+      <td>221.4739</td>
+      <td>221.507425</td>
+      <td>221.54090</td>
+      <td>221.719525</td>
+      <td>222.1885</td>
+    </tr>
+    <tr>
+      <th>Old</th>
+      <td>4.0</td>
+      <td>221.61905</td>
+      <td>0.099029</td>
+      <td>221.5186</td>
+      <td>221.552050</td>
+      <td>221.60785</td>
+      <td>221.674850</td>
+      <td>221.7419</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
 
 
 ---
 
-## 1.2 Repeated Deep Sample Measurements: 1
+## 3.2 Repeated Deep Sample Measurements: 1
 
-### 1.2.1 Samples from One Niskin per Instrument
+### 3.2.1 Samples from One Niskin per Instrument
 
 
 ```python
-deep_reps_single_df = pd.read_csv(r"C:\Users\she384\Documents\DO Commissioning\repo\data\dep_1_deep_replicates_single_niskins.csv")
+deep_reps_single_df = pd.read_csv(DEP_1_DEEP_REPLICATES_SINGLE_NISKINS_DATA)
 ```
 
 
@@ -275,6 +368,8 @@ deep_reps_single_df.head()
 
 
 
+#### 3.2.1.1 Samples from One Niskin Boxplot
+
 
 ```python
 sns.boxplot(deep_reps_single_df['Instrument'], deep_reps_single_df['O2µmol/L'])
@@ -295,14 +390,126 @@ plt.savefig('replicate_deep_samples_1_single.svg', format='svg')
 ```
 
 
-![png](https://raw.githubusercontent.com/kendall-s/do_commissioning/6de482a4f40a3fffaad9e3d86eb9547ffdda24c1/plots/replicate_deep_samples_1_single.svg)
+![png](https://raw.githubusercontent.com/kendall-s/do_commissioning/master/plots/replicate_deep_samples_1_single.svg)
 
 
-### 1.2.2 Samples from Two Niskins for all Instruments
+#### 3.2.1.2 Descriptive Statistics
 
 
 ```python
-deep_reps_shared_df = pd.read_csv(r"C:\Users\she384\Documents\DO Commissioning\repo\data\dep_1_deep_replicates_shared_niskins.csv")
+deep_reps_single_df.groupby(['Instrument'])['O2µmol/L'].describe()
+```
+
+
+
+
+<div>
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+    </tr>
+    <tr>
+      <th>Instrument</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>New A</th>
+      <td>6.0</td>
+      <td>187.196600</td>
+      <td>0.186819</td>
+      <td>187.0403</td>
+      <td>187.040300</td>
+      <td>187.15195</td>
+      <td>187.297050</td>
+      <td>187.4869</td>
+    </tr>
+    <tr>
+      <th>New B</th>
+      <td>6.0</td>
+      <td>187.218917</td>
+      <td>0.252660</td>
+      <td>186.7276</td>
+      <td>187.207775</td>
+      <td>187.33055</td>
+      <td>187.352900</td>
+      <td>187.3976</td>
+    </tr>
+    <tr>
+      <th>Old</th>
+      <td>6.0</td>
+      <td>187.181700</td>
+      <td>0.099515</td>
+      <td>187.0403</td>
+      <td>187.129600</td>
+      <td>187.17425</td>
+      <td>187.252425</td>
+      <td>187.3082</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+#### 3.2.1.3 T-Test Comparison of Means
+
+
+```python
+deep_reps_single_newa = deep_reps_single_df.loc[deep_reps_single_df['Instrument'] == 'New A']
+deep_reps_single_newb = deep_reps_single_df.loc[deep_reps_single_df['Instrument'] == 'New B']
+deep_reps_single_old = deep_reps_single_df.loc[deep_reps_single_df['Instrument'] == 'Old']
+```
+
+##### Compare New A to Old instrument
+
+
+```python
+result = sci_st.ttest_ind(deep_reps_single_newa['O2µmol/L'], deep_reps_single_old['O2µmol/L'])
+print(f'Comparison of the New A instrument to Old, p-value: {result[1]}')
+if result[1] < 0.05:
+    print('Significance !')
+```
+
+    Comparison of the New A instrument to Old, p-value: 0.8665430859682957
+    
+
+##### Compare New B to Old instrument
+
+
+```python
+result = sci_st.ttest_ind(deep_reps_single_newb['O2µmol/L'], deep_reps_single_old['O2µmol/L'])
+print(f'Comparison of the New B instrument to Old, p-value: {result[1]}')
+if result[1] < 0.05:
+    print('Significance !')
+```
+
+    Comparison of the New B instrument to Old, p-value: 0.7440286422028863
+    
+
+### 3.2.2 Samples from Two Niskins for all Instruments
+
+
+```python
+deep_reps_shared_df = pd.read_csv(DEP_1_DEEP_REPLICATES_SHARED_NISKINS_DATA)
 ```
 
 
@@ -415,6 +622,8 @@ deep_reps_shared_df.head()
 
 
 
+#### 3.2.2.1 Samples from Shared Niskins Boxplot
+
 
 ```python
 sns.boxplot(deep_reps_shared_df['Instrument'], deep_reps_shared_df['O2µmol/L'])
@@ -435,16 +644,93 @@ plt.savefig('replicate_deep_samples_1_shared.svg', format='svg')
 ```
 
 
-![png](https://raw.githubusercontent.com/kendall-s/do_commissioning/6de482a4f40a3fffaad9e3d86eb9547ffdda24c1/plots/replicate_deep_samples_1_shared.svg)
+![png](https://raw.githubusercontent.com/kendall-s/do_commissioning/master/plots/replicate_deep_samples_1_shared.svg)
+
+
+#### 3.2.2.2 Descriptive Statistics
+
+
+```python
+deep_reps_shared_df.groupby(['Instrument'])['O2µmol/L'].describe()
+```
+
+
+
+
+<div>
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+    </tr>
+    <tr>
+      <th>Instrument</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>New A</th>
+      <td>4.0</td>
+      <td>187.230100</td>
+      <td>0.285693</td>
+      <td>186.9956</td>
+      <td>187.029125</td>
+      <td>187.15195</td>
+      <td>187.352925</td>
+      <td>187.6209</td>
+    </tr>
+    <tr>
+      <th>New B</th>
+      <td>4.0</td>
+      <td>187.587350</td>
+      <td>0.400103</td>
+      <td>187.3082</td>
+      <td>187.308200</td>
+      <td>187.44220</td>
+      <td>187.721350</td>
+      <td>188.1568</td>
+    </tr>
+    <tr>
+      <th>Old</th>
+      <td>4.0</td>
+      <td>187.565025</td>
+      <td>0.511021</td>
+      <td>187.1296</td>
+      <td>187.263550</td>
+      <td>187.41985</td>
+      <td>187.721325</td>
+      <td>188.2908</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
 
 
 ---
 
-## 1.3 Atmospheric Sample: All Instruments
+## 3.3 Atmospheric Saturated Sample: All Instruments
 
 
 ```python
-atmospheric_all_df = pd.read_csv(r"C:\Users\she384\Documents\DO Commissioning\repo\data\atmospheric_diff_instruments.csv")
+atmospheric_all_df = pd.read_csv(ATMOSPHERIC_DIFF_INSTRUMENTS_DATA)
 ```
 
 
@@ -551,7 +837,9 @@ atmospheric_all_df.head()
 
 
 
-### Plot just initial box plot scaled to the measurements
+### 3.3.1 Atmospheric Saturated Sample Boxplot (auto-scale)
+
+#### Plot just initial box plot scaled to the measurements
 
 
 ```python
@@ -561,7 +849,7 @@ plt.xlabel("Instrument", fontsize=16)
 plt.ylabel("Concentration (uM)", fontsize=16)
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=12)
-plt.title('Atmospheric Sample', fontsize=18)
+plt.title('Atmospheric Saturated Sample', fontsize=18)
 
 plt.tight_layout()
 
@@ -573,10 +861,12 @@ plt.savefig('atmospheric_diff_instruments.svg', format='svg')
 ```
 
 
-![png](https://raw.githubusercontent.com/kendall-s/do_commissioning/6de482a4f40a3fffaad9e3d86eb9547ffdda24c1/plots/atmospheric_diff_instruments.svg)
+![png](https://raw.githubusercontent.com/kendall-s/do_commissioning/master/plots/atmospheric_diff_instruments.svg)
 
 
-### Plot with lines to indicate various QC limits
+### 3.3.2 Atmospheric Saturated Sample Boxplot (QC Control Lines)
+
+#### Plot with lines to indicate various QC limits
 
 
 ```python
@@ -586,7 +876,7 @@ plt.xlabel("Instrument", fontsize=16)
 plt.ylabel("Concentration (uM)", fontsize=16)
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=12)
-plt.title('Atmospheric Sample w/QC Bars', fontsize=18)
+plt.title('Atmospheric Saturated Sample w/QC Bars', fontsize=18)
 
 # Calculate the theoretical saturation
 MEASURED_SALINITY = 0
@@ -622,16 +912,16 @@ plt.savefig('atmospheric_diff_instruments_with_bars.svg', format='svg')
 ```
 
 
-![png](https://raw.githubusercontent.com/kendall-s/do_commissioning/6de482a4f40a3fffaad9e3d86eb9547ffdda24c1/plots/atmospheric_diff_instruments_with_bars.svg)
+![png](output_45_0.png)
 
 
 ---
 
-## 1.4 Atmospheric Sample: One Instrument
+## 3.4 Atmospheric Saturated Sample: One Instrument
 
 
 ```python
-atmospheric_one_df = pd.read_csv(r"C:\Users\she384\Documents\DO Commissioning\repo\data\atmospheric_one_instrument.csv")
+atmospheric_one_df = pd.read_csv(ATMOSPHERIC_ONE_INSTRUMENT_DATA)
 ```
 
 
@@ -738,6 +1028,8 @@ atmospheric_one_df.head()
 
 
 
+### 3.4.1 Atmospheric Saturated Sample: Instrument New B (auto-scale)
+
 
 ```python
 sns.lineplot(atmospheric_one_df.index, atmospheric_one_df['O2µmol/L'], lw=0, marker="o", ms=10)
@@ -746,7 +1038,7 @@ plt.xlabel("Sample", fontsize=16)
 plt.ylabel("Concentration (uM)", fontsize=16)
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=12)
-plt.title('Atmospheric Sample: Instrument New B', fontsize=18)
+plt.title('Atmospheric Saturated Sample: Instrument New B', fontsize=18)
 
 plt.tight_layout()
 
@@ -754,8 +1046,10 @@ plt.savefig('atmospheric_one_instrument.svg', format='svg')
 ```
 
 
-![png](https://raw.githubusercontent.com/kendall-s/do_commissioning/6de482a4f40a3fffaad9e3d86eb9547ffdda24c1/plots/atmospheric_one_instrument.svg)
+![png](https://raw.githubusercontent.com/kendall-s/do_commissioning/master/plots/atmospheric_one_instrument.svg)
 
+
+### 3.4.2 Atmospheric Saturated Sample: Instrument New B (QC Control Limits)
 
 
 ```python
@@ -765,7 +1059,7 @@ plt.xlabel("Sample", fontsize=16)
 plt.ylabel("Concentration (uM)", fontsize=16)
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=12)
-plt.title('Atmospheric Sample: Instrument New B', fontsize=18)
+plt.title('Atmospheric Saturated Sample: Instrument New B', fontsize=18)
 
 plt.tight_layout()
 
@@ -799,8 +1093,10 @@ plt.savefig('atmospheric_one_instrument_with_bars.svg', format='svg')
 ```
 
 
-![png](https://raw.githubusercontent.com/kendall-s/do_commissioning/6de482a4f40a3fffaad9e3d86eb9547ffdda24c1/plots/atmospheric_one_instrument_with_bars.svg)
+![png](https://raw.githubusercontent.com/kendall-s/do_commissioning/master/plots/atmospheric_one_instrument_with_bars.svg)
 
+
+### 3.4.3 Atmospheric Saturated Sample: Instrument New B Boxplot (QC Control Limits)
 
 
 ```python
@@ -810,7 +1106,7 @@ plt.xlabel("Sample", fontsize=16)
 plt.ylabel("Concentration (uM)", fontsize=16)
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=12)
-plt.title('Atmospheric Sample: Instrument New B', fontsize=18)
+plt.title('Atmospheric Saturated Sample: Instrument New B', fontsize=18)
 
 plt.tight_layout()
 
@@ -846,16 +1142,16 @@ plt.savefig('atmospheric_one_instrument_with_bars-boxplot-version.svg', format='
 ```
 
 
-![png](https://raw.githubusercontent.com/kendall-s/do_commissioning/6de482a4f40a3fffaad9e3d86eb9547ffdda24c1/plots/atmospheric_one_instrument_with_bars-boxplot-version.svg)
+![png](output_55_0.png)
 
 
 ---
 
-## 1.5 Water Profile Comparison
+## 3.5 Water Profile Comparison
 
 
 ```python
-profile_comparison_df = pd.read_csv(r"C:\Users\she384\Documents\DO Commissioning\repo\data\profile_comparison.csv")
+profile_comparison_df = pd.read_csv(PROFILE_COMPARISON_DATA)
 ```
 
 
@@ -974,6 +1270,8 @@ profile_comparison_df.head()
 
 
 
+### 3.5.1 Water Profile Plot
+
 
 ```python
 instrument_new_a_df = profile_comparison_df.loc[profile_comparison_df['Instrument'] == 'New A']
@@ -1002,18 +1300,40 @@ plt.savefig('profile_comparison.svg', format='svg')
 ```
 
 
-![png](https://raw.githubusercontent.com/kendall-s/do_commissioning/6de482a4f40a3fffaad9e3d86eb9547ffdda24c1/plots/profile_comparison.svg)
+![png](https://raw.githubusercontent.com/kendall-s/do_commissioning/master/plots/profile_comparison.svg)
 
 
-### More to add here on the probability testing
-
----
-
-## 1.6 Repeated Deep Sample Measurements: 2
+### 3.5.2 T-Test Comparison of means
 
 
 ```python
-deep_reps_two_df = pd.read_csv(r"C:\Users\she384\Documents\DO Commissioning\repo\data\dep_2_deep_replicates.csv")
+results_dict = {}
+depths_to_test = [5, 40, 800, 1000]
+for depth in depths_to_test:
+    instrument_a_depth_subset = instrument_new_a_df.loc[instrument_new_a_df['Pressure'] == depth]
+    instrument_old_depth_subset = instrument_old_df.loc[instrument_old_df['Pressure'] == depth]
+    result = sci_st.ttest_ind(instrument_a_depth_subset['O2µmol/L'], instrument_old_depth_subset['O2µmol/L'])
+    results_dict[depth] = result[1]
+
+print("For the tested depths, the t-test p-value is shown")
+for key in results_dict:
+    print(f'At depth: {key} the p-value is: {results_dict[key]}')
+```
+
+    For the tested depths, the t-test p-value is shown
+    At depth: 5 the p-value is: 0.10839798708992938
+    At depth: 40 the p-value is: 0.3026985172966608
+    At depth: 800 the p-value is: 0.9008494336784751
+    At depth: 1000 the p-value is: 0.8665430859682957
+    
+
+---
+
+## 3.6 Repeated Deep Sample Measurements: 2
+
+
+```python
+deep_reps_two_df = pd.read_csv(DEP_2_DEEP_REPLICATES_DATA)
 ```
 
 
@@ -1126,6 +1446,8 @@ deep_reps_two_df.head()
 
 
 
+### 3.6.1 Deployment 2 Replicates Boxplot
+
 
 ```python
 sns.boxplot(deep_reps_two_df['Instrument'], deep_reps_two_df['O2µmol/L'])
@@ -1146,7 +1468,472 @@ plt.savefig('replicate_deep_samples_2.svg', format='svg')
 ```
 
 
-![png](https://raw.githubusercontent.com/kendall-s/do_commissioning/6de482a4f40a3fffaad9e3d86eb9547ffdda24c1/plots/replicate_deep_samples_2.svg)
+![png](https://raw.githubusercontent.com/kendall-s/do_commissioning/master/plots/replicate_deep_samples_2.svg)
+
+
+### 3.6.2 T-Test Comparison of Means
+
+
+```python
+# Subset by instrument into new dataframes just for simplicity in next cells
+deep_reps_two_newa = deep_reps_two_df.loc[deep_reps_two_df['Instrument'] == 'New A']
+deep_reps_two_newb = deep_reps_two_df.loc[deep_reps_two_df['Instrument'] == 'New B']
+deep_reps_two_old = deep_reps_two_df.loc[deep_reps_two_df['Instrument'] == 'Old']
+```
+
+#### Compare New A to the Old instrument
+
+
+```python
+result = sci_st.ttest_ind(deep_reps_two_newa['O2µmol/L'], deep_reps_two_old['O2µmol/L'])
+print(f'Comparison of the New A instrument to Old, p-value: {result[1]}')
+if result[1] < 0.05:
+    print('Significance!')
+```
+
+    Comparison of the New A instrument to Old, p-value: 0.039304940051647204
+    Significance!
+    
+
+#### Compare New B to Old instrument
+
+
+```python
+result = sci_st.ttest_ind(deep_reps_two_newb['O2µmol/L'], deep_reps_two_old['O2µmol/L'])
+print(f'Comparison of the New B instrument to Old, p-value: {result[1]}')
+if result[1] < 0.05:
+    print('Significance!')
+```
+
+    Comparison of the New B instrument to Old, p-value: 0.11189671028378533
+    
+
+---
+
+## 3.7 Experimental Meta Analysis
+
+
+```python
+combined_df = pd.read_csv(COMBINED_DATA)
+```
+
+
+```python
+combined_df.head()
+```
+
+
+
+
+<div>
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Experiment</th>
+      <th>Instrument</th>
+      <th>Bottle</th>
+      <th>FlaskVol</th>
+      <th>RawTitre</th>
+      <th>Titre20</th>
+      <th>O2ml/L</th>
+      <th>ThioTemp</th>
+      <th>DrawTemp</th>
+      <th>EndVolts</th>
+      <th>TitreTime</th>
+      <th>O2µmol/L</th>
+      <th>RP</th>
+      <th>Pressure</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Iodate</td>
+      <td>New A</td>
+      <td>200</td>
+      <td>142.19</td>
+      <td>0.51524</td>
+      <td>0.51529</td>
+      <td>4.964</td>
+      <td>19.46</td>
+      <td>20.0</td>
+      <td>2.450</td>
+      <td>155700</td>
+      <td>221.5632</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Iodate</td>
+      <td>New A</td>
+      <td>200</td>
+      <td>142.19</td>
+      <td>0.51495</td>
+      <td>0.51496</td>
+      <td>4.960</td>
+      <td>19.86</td>
+      <td>20.0</td>
+      <td>2.412</td>
+      <td>160520</td>
+      <td>221.4292</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Iodate</td>
+      <td>New A</td>
+      <td>200</td>
+      <td>142.19</td>
+      <td>0.51513</td>
+      <td>0.51514</td>
+      <td>4.962</td>
+      <td>19.86</td>
+      <td>20.0</td>
+      <td>2.427</td>
+      <td>161045</td>
+      <td>221.5186</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Iodate</td>
+      <td>New A</td>
+      <td>200</td>
+      <td>142.19</td>
+      <td>0.51485</td>
+      <td>0.51486</td>
+      <td>4.959</td>
+      <td>19.91</td>
+      <td>20.0</td>
+      <td>2.424</td>
+      <td>161648</td>
+      <td>221.3846</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Iodate</td>
+      <td>New B</td>
+      <td>200</td>
+      <td>142.19</td>
+      <td>0.61870</td>
+      <td>0.61877</td>
+      <td>4.960</td>
+      <td>19.40</td>
+      <td>20.0</td>
+      <td>2.358</td>
+      <td>160025</td>
+      <td>221.5632</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+### 3.7.1 Calculation of Mean Standard Deviation
+
+
+```python
+# Take out the profile experiment as it will skew the data, unless pressure is included as an additional "groupby"
+excl_profile = combined_df.loc[combined_df['Experiment'] != "Profile_Comp"]
+# Group by Instrument then Experiment type then show descriptive stats 
+excl_profile.groupby(['Instrument', 'Experiment'])['O2µmol/L'].describe()
+```
+
+
+
+
+<div>
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+    </tr>
+    <tr>
+      <th>Instrument</th>
+      <th>Experiment</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="5" valign="top">New A</th>
+      <th>Atmos_All</th>
+      <td>4.0</td>
+      <td>274.709800</td>
+      <td>0.221824</td>
+      <td>274.4418</td>
+      <td>274.575825</td>
+      <td>274.73215</td>
+      <td>274.866125</td>
+      <td>274.9331</td>
+    </tr>
+    <tr>
+      <th>Dep1_Reps_Shared</th>
+      <td>4.0</td>
+      <td>187.230100</td>
+      <td>0.285693</td>
+      <td>186.9956</td>
+      <td>187.029125</td>
+      <td>187.15195</td>
+      <td>187.352925</td>
+      <td>187.6209</td>
+    </tr>
+    <tr>
+      <th>Dep1_Reps_Single</th>
+      <td>6.0</td>
+      <td>187.196600</td>
+      <td>0.186819</td>
+      <td>187.0403</td>
+      <td>187.040300</td>
+      <td>187.15195</td>
+      <td>187.297050</td>
+      <td>187.4869</td>
+    </tr>
+    <tr>
+      <th>Dep2_Reps</th>
+      <td>8.0</td>
+      <td>186.024225</td>
+      <td>0.245500</td>
+      <td>185.7004</td>
+      <td>185.834400</td>
+      <td>186.01310</td>
+      <td>186.124700</td>
+      <td>186.4150</td>
+    </tr>
+    <tr>
+      <th>Iodate</th>
+      <td>4.0</td>
+      <td>221.473900</td>
+      <td>0.081538</td>
+      <td>221.3846</td>
+      <td>221.418050</td>
+      <td>221.47390</td>
+      <td>221.529750</td>
+      <td>221.5632</td>
+    </tr>
+    <tr>
+      <th rowspan="6" valign="top">New B</th>
+      <th>Atmos_All</th>
+      <td>4.0</td>
+      <td>274.854975</td>
+      <td>0.111670</td>
+      <td>274.7098</td>
+      <td>274.810300</td>
+      <td>274.86615</td>
+      <td>274.910825</td>
+      <td>274.9778</td>
+    </tr>
+    <tr>
+      <th>Atmos_NewB</th>
+      <td>12.0</td>
+      <td>277.095450</td>
+      <td>0.209874</td>
+      <td>276.8089</td>
+      <td>276.965175</td>
+      <td>277.07680</td>
+      <td>277.210800</td>
+      <td>277.4788</td>
+    </tr>
+    <tr>
+      <th>Dep1_Reps_Shared</th>
+      <td>4.0</td>
+      <td>187.587350</td>
+      <td>0.400103</td>
+      <td>187.3082</td>
+      <td>187.308200</td>
+      <td>187.44220</td>
+      <td>187.721350</td>
+      <td>188.1568</td>
+    </tr>
+    <tr>
+      <th>Dep1_Reps_Single</th>
+      <td>6.0</td>
+      <td>187.218917</td>
+      <td>0.252660</td>
+      <td>186.7276</td>
+      <td>187.207775</td>
+      <td>187.33055</td>
+      <td>187.352900</td>
+      <td>187.3976</td>
+    </tr>
+    <tr>
+      <th>Dep2_Reps</th>
+      <td>8.0</td>
+      <td>186.180538</td>
+      <td>0.136615</td>
+      <td>185.8791</td>
+      <td>186.147000</td>
+      <td>186.21405</td>
+      <td>186.247550</td>
+      <td>186.3257</td>
+    </tr>
+    <tr>
+      <th>Iodate</th>
+      <td>4.0</td>
+      <td>221.686050</td>
+      <td>0.336945</td>
+      <td>221.4739</td>
+      <td>221.507425</td>
+      <td>221.54090</td>
+      <td>221.719525</td>
+      <td>222.1885</td>
+    </tr>
+    <tr>
+      <th rowspan="5" valign="top">Old</th>
+      <th>Atmos_All</th>
+      <td>4.0</td>
+      <td>274.832650</td>
+      <td>0.056200</td>
+      <td>274.7545</td>
+      <td>274.821475</td>
+      <td>274.84380</td>
+      <td>274.854975</td>
+      <td>274.8885</td>
+    </tr>
+    <tr>
+      <th>Dep1_Reps_Shared</th>
+      <td>4.0</td>
+      <td>187.565025</td>
+      <td>0.511021</td>
+      <td>187.1296</td>
+      <td>187.263550</td>
+      <td>187.41985</td>
+      <td>187.721325</td>
+      <td>188.2908</td>
+    </tr>
+    <tr>
+      <th>Dep1_Reps_Single</th>
+      <td>6.0</td>
+      <td>187.181700</td>
+      <td>0.099515</td>
+      <td>187.0403</td>
+      <td>187.129600</td>
+      <td>187.17425</td>
+      <td>187.252425</td>
+      <td>187.3082</td>
+    </tr>
+    <tr>
+      <th>Dep2_Reps</th>
+      <td>8.0</td>
+      <td>186.565750</td>
+      <td>0.627521</td>
+      <td>186.0577</td>
+      <td>186.169375</td>
+      <td>186.30335</td>
+      <td>186.705325</td>
+      <td>187.8442</td>
+    </tr>
+    <tr>
+      <th>Iodate</th>
+      <td>4.0</td>
+      <td>221.619050</td>
+      <td>0.099029</td>
+      <td>221.5186</td>
+      <td>221.552050</td>
+      <td>221.60785</td>
+      <td>221.674850</td>
+      <td>221.7419</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+# Get final standard deviation 
+excl_profile.groupby(['Instrument', 'Experiment'])['O2µmol/L'].std().groupby(['Instrument']).mean()
+```
+
+
+
+
+    Instrument
+    New A    0.204275
+    New B    0.241311
+    Old      0.278657
+    Name: O2µmol/L, dtype: float64
+
+
+
+### 3.7.2 F-Test for Difference in Variances
+
+
+```python
+# Take out the profile experiment as it will skew the data, unless pressure is included as an additional "groupby"
+excl_profile = combined_df.loc[combined_df['Experiment'] != "Profile_Comp"]
+excl_atmosB = excl_profile.loc[excl_profile['Experiment'] != "Atmos_NewB"]
+
+# Group by Instrument then Experiment type then show descriptive stats 
+grouped_st_devs = excl_atmosB.groupby(['Instrument', 'Experiment'])['O2µmol/L'].std()
+```
+
+
+```python
+grouped_st_devs
+```
+
+
+
+
+    Instrument  Experiment      
+    New A       Atmos_All           0.221824
+                Dep1_Reps_Shared    0.285693
+                Dep1_Reps_Single    0.186819
+                Dep2_Reps           0.245500
+                Iodate              0.081538
+    New B       Atmos_All           0.111670
+                Dep1_Reps_Shared    0.400103
+                Dep1_Reps_Single    0.252660
+                Dep2_Reps           0.136615
+                Iodate              0.336945
+    Old         Atmos_All           0.056200
+                Dep1_Reps_Shared    0.511021
+                Dep1_Reps_Single    0.099515
+                Dep2_Reps           0.627521
+                Iodate              0.099029
+    Name: O2µmol/L, dtype: float64
+
+
+
+
+```python
+sci_st.f_oneway(grouped_st_devs['New A'].values, grouped_st_devs['New B'].values, grouped_st_devs['Old'].values)
+```
+
+
+
+
+    F_onewayResult(statistic=0.22295493881859532, pvalue=0.8033921150555711)
+
 
 
 
