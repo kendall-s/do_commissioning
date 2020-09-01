@@ -23,13 +23,13 @@ Please see the commissioning report for more information.
 
 ## 3.2.1.1 Samples from One Niskin per Instrument Boxplot
 
-> Samples were collected from deep CTD deployment (1000db), in this section 6 samples were collected from each niskin and, samples from that 1 niskin were then analysed by 1 instrument. All samples were collected by Kendall.
+> Samples were collected from deep CTD deployment (1000db, deployment 1), in this section 6 samples were collected from each niskin and, samples from that 1 niskin were then analysed by 1 instrument. All samples were collected by Kendall.
 
 ![Replicate samples from 1 niskin per Instrument](https://raw.githubusercontent.com/kendall-s/do_commissioning/master/plots/replicate_deep_samples_1_single.svg)
 
 ## 3.2.2.1 Samples from Two Niskins for all Instruments Boxplot
 
-> Samples were collected from deep CTD deployment (1000db), in this section 6 samples were collected from two niskins, totalling 12 samples. 2 samples from each niskin were analysed on each instrument, meaning each instrument analysed 4 samples. 
+> Samples were collected from deep CTD deployment (1000db), in this section 6 samples were collected from two niskins, totalling 12 samples. 2 samples from each niskin were analysed on each instrument, meaning each instrument analysed 4 samples.  All samples were collected by Alicia.
 
 ![Replicate samples from 2 niskins for all Instruments](https://raw.githubusercontent.com/kendall-s/do_commissioning/master/plots/replicate_deep_samples_1_shared.svg)
 
@@ -39,7 +39,7 @@ Please see the commissioning report for more information.
 
 ## 3.3.1 Atmospheric Saturated Sample Boxplot
 
-> Using the atmospheric sample setup, 12 samples were collected at 21.5°C with air pressure of 1011.1 atm. 4 samples at random were analysed by each instrument. All samples were collected by Alicia.
+> Using the atmospheric sample setup, 12 samples were collected at 21.5°C with air pressure of 1011.1 atm. 4 samples at random were analysed by each instrument.
 
 ![Atmospheric samples collected and measured on all Instruments](https://raw.githubusercontent.com/kendall-s/do_commissioning/master/plots/atmospheric_diff_instruments.svg)
 
@@ -75,6 +75,6 @@ Please see the commissioning report for more information.
 
 ## 3.6.1 Deployment 2 Replicates Boxplot
 
-> Replicate water samples were taken at multiple depths for a basic water column profile. There were niskin fired replicates as well as sample duplicates taken for each niskin. The sample duplicates were split between the two instruments test, New A and Old. 
+> Samples were collected from deep CTD deployment (1000db, deployment 2), in this section all Niskin bottles were fired at the bottom depth. A sample was then collected from every Niskin and the samples ditributed equally between all instruments. All samples were collected by Kendall.
 
 ![Deployment 2 deep replicate samples, 8 samples measured on each Instrument](https://raw.githubusercontent.com/kendall-s/do_commissioning/master/plots/replicate_deep_samples_2.svg)
